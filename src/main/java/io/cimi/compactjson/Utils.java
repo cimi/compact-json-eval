@@ -3,6 +3,7 @@ package io.cimi.compactjson;
 import com.fasterxml.jackson.core.JsonFactory;
 import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.google.common.base.Strings;
 
 import java.io.File;
 import java.io.IOException;
@@ -20,7 +21,13 @@ public class Utils {
     }
 
     private static String buildFileInfo(File file) {
-        return file.getName() + " -> " + readableFileSize(file.length());
+        return formatMarkdownRow(file.getName(), readableFileSize(file.length()));
+    }
+
+    private static String formatMarkdownRow(String firstCol, String secondCol) {
+        return "| " + String.format("%1$-50s", firstCol)
+                + " | "
+                + String.format("%1$-10s", secondCol) + " |";
     }
 
     public static Map<String, Object> parseJsonFile(File file) throws IOException {
@@ -31,7 +38,9 @@ public class Utils {
     }
 
     public static void outputInformation(List<File> fileList) {
+        System.out.println(formatMarkdownRow("File", "Size"));
+        System.out.println(formatMarkdownRow(Strings.repeat("-", 50), Strings.repeat("-", 10)));
         fileList.stream().map(Utils::buildFileInfo).forEach(System.out::println);
-        System.out.println("------");
+        System.out.println();
     }
 }
