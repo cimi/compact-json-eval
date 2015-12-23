@@ -14,6 +14,15 @@ import static java.util.stream.Collectors.toList;
 
 public class Runner {
 
+    private static List<Processor> ENCODERS = ImmutableList.of(
+            new IdentityProcessor(),
+            new SmileEncoder(),
+            new BsonEncoder());
+
+    private static List<Processor> COMPRESSORS = ImmutableList.of(
+            new IdentityProcessor(),
+            new GzipCompressor());
+
     private Stream<File> getFileStream(String directory) {
         File[] files = new File(directory).listFiles();
         checkNotNull(files, "Directory '%s' does not exist!", directory);
@@ -21,11 +30,9 @@ public class Runner {
     }
 
     private List<File> processFile(File f) {
-        List<Processor> encoders = ImmutableList.of(new IdentityProcessor(), new SmileEncoder());
-        List<Processor> compressors = ImmutableList.of(new IdentityProcessor(), new GzipCompressor());
-        return encoders.stream()
+        return ENCODERS.stream()
                 .map(encoder -> encoder.process(f))
-                .flatMap(encoded -> compressors
+                .flatMap(encoded -> COMPRESSORS
                         .stream()
                         .map(compressor -> compressor.process(encoded)))
                 .collect(toList());
