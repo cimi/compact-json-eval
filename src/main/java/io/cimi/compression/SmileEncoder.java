@@ -6,13 +6,14 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.dataformat.smile.SmileFactory;
 import com.fasterxml.jackson.dataformat.smile.SmileGenerator;
 import com.fasterxml.jackson.dataformat.smile.SmileParser;
+import com.google.common.base.Throwables;
 
 import java.io.File;
 import java.io.IOException;
 import java.util.HashMap;
 import java.util.Map;
 
-public class SmileProcessor {
+public class SmileEncoder implements Processor {
     private static ObjectMapper getSmileObjectMapper() {
         SmileFactory smileFactory = new SmileFactory();
         smileFactory.configure(SmileGenerator.Feature.CHECK_SHARED_NAMES, true);
@@ -31,12 +32,19 @@ public class SmileProcessor {
         return mapper.readValue(file, typeRef);
     }
 
-    public File process(File input) throws IOException {
-        ObjectMapper mapper = new ObjectMapper();
+    public File process(File input) {
         ObjectMapper smile = getSmileObjectMapper();
-        Map<String, Object> content = parseJsonFile(input);
         File outputFile = new File(input.getAbsolutePath() + ".smile");
-        smile.writeValue(outputFile, content);
+        try {
+            Map<String, Object> content = parseJsonFile(input);
+            smile.writeValue(outputFile, content);
+        } catch (IOException e) {
+            Throwables.propagate(e);
+        }
         return outputFile;
+    }
+
+    public String getExtension() {
+        return ".smile";
     }
 }

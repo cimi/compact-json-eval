@@ -1,45 +1,43 @@
 package io.cimi;
 
-import io.cimi.compression.GzipProcessor;
-import io.cimi.compression.SmileProcessor;
+import com.google.common.collect.ImmutableList;
+import io.cimi.compression.*;
 
 import java.io.File;
 import java.io.IOException;
-import java.text.DecimalFormat;
+import java.util.Arrays;
+import java.util.List;
+import java.util.stream.Stream;
+
+import static com.google.common.base.Preconditions.checkNotNull;
+import static java.util.stream.Collectors.toList;
 
 public class Runner {
-    private static final String RESOURCE_DIRECTORY = "/Users/ciminian/code/problems/java/src/main/resources/";
+    private static final String RESOURCE_DIRECTORY = "/Users/ciminian/code/json-compression/src/main/resources/";
 
-    private static String readableFileSize(long size) {
-        if(size <= 0) return "0";
-        final String[] units = new String[] { "B", "kB", "MB", "GB", "TB" };
-        int digitGroups = (int) (Math.log10(size)/Math.log10(1024));
-        return new DecimalFormat("#,##0.#").format(size/Math.pow(1024, digitGroups)) + " " + units[digitGroups];
-    }
-
-    private void listFileSizes(String directory) {
+    private Stream<File> getFileStream(String directory) {
         File[] files = new File(directory).listFiles();
-        for (File file : files) {
-            System.out.println(file.getName() + " -> " + readableFileSize(file.length()));
-        }
+        checkNotNull(files, "directory %s does not exist!", directory);
+        return Arrays.stream(files);
     }
 
-    private File readResource(String resourceName) {
-        return new File(getClass().getClassLoader().getResource(resourceName).getFile());
+    private List<File> processFile(File f) {
+        List<Processor> encoders = ImmutableList.of(new IdentityProcessor(), new SmileEncoder());
+        List<Processor> compressors = ImmutableList.of(new IdentityProcessor(), new GzipCompressor());
+        return encoders.stream()
+                .map(encoder -> encoder.process(f))
+                .flatMap(encoded -> compressors
+                        .stream()
+                        .map(compressor -> compressor.process(encoded)))
+                .collect(toList());
     }
 
     public static void main(String[] args) throws IOException {
         Runner runner = new Runner();
 
-        SmileProcessor smile = new SmileProcessor();
-        GzipProcessor gzip = new GzipProcessor();
-
-        File inputFile = runner.readResource("item-master-prod.json");
-
-        File encodedFile = smile.process(inputFile);
-        File compressedSmile = gzip.process(encodedFile);
-        File compressedJson = gzip.process(inputFile);
-
-        runner.listFileSizes(RESOURCE_DIRECTORY);
+        runner.getFileStream(RESOURCE_DIRECTORY)
+                .filter(f -> f.getName().endsWith(".json"))
+                .map(runner::processFile)
+                .forEach(Utils::outputInformation);
     }
 }
