@@ -22,11 +22,11 @@ public class SmileEncoder implements Processor {
         return new ObjectMapper(smileFactory);
     }
 
-    public File process(File input) {
+    public File process(File inputFile) {
         ObjectMapper smile = buildSmileObjectMapper();
-        File outputFile = new File(input.getAbsolutePath() + ".smile");
+        File outputFile = new File(inputFile.getAbsolutePath() + ".smile");
         try {
-            Map<String, Object> content = Utils.parseJsonFile(input);
+            Map<String, Object> content = Utils.parseJsonFile(inputFile);
             smile.writeValue(outputFile, content);
         } catch (IOException e) {
             Throwables.propagate(e);

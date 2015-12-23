@@ -20,11 +20,11 @@ public class BsonEncoder implements Processor {
     }
 
     @Override
-    public File process(File input) {
+    public File process(File inputFile) {
         ObjectMapper bson = buildBsonObjectMapper();
-        File outputFile = new File(input.getAbsolutePath() + ".bson");
+        File outputFile = new File(inputFile.getAbsolutePath() + ".bson");
         try {
-            Map<String, Object> content = Utils.parseJsonFile(input);
+            Map<String, Object> content = Utils.parseJsonFile(inputFile);
             bson.writeValue(outputFile, content);
         } catch (IOException e) {
             Throwables.propagate(e);
