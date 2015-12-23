@@ -1,4 +1,4 @@
-package io.cimi.compression;
+package io.cimi.compactjson;
 
 import java.io.File;
 

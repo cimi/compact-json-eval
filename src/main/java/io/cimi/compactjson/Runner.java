@@ -1,7 +1,6 @@
-package io.cimi;
+package io.cimi.compactjson;
 
 import com.google.common.collect.ImmutableList;
-import io.cimi.compression.*;
 
 import java.io.File;
 import java.io.IOException;
@@ -17,7 +16,7 @@ public class Runner {
 
     private Stream<File> getFileStream(String directory) {
         File[] files = new File(directory).listFiles();
-        checkNotNull(files, "directory %s does not exist!", directory);
+        checkNotNull(files, "Directory '%s' does not exist!", directory);
         return Arrays.stream(files);
     }
 
@@ -35,7 +34,7 @@ public class Runner {
     public static void main(String[] args) throws IOException {
         Runner runner = new Runner();
 
-        checkArgument(args.length == 1, "The directory in which the test files are located must be provided as a parameter!");
+        checkArgument(args.length == 1, "Please provide the directory containing your json files as a parameter!");
 
         runner.getFileStream(args[0])
                 .filter(f -> f.getName().endsWith(".json"))

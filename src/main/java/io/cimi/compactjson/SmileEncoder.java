@@ -1,4 +1,4 @@
-package io.cimi.compression;
+package io.cimi.compactjson;
 
 import com.fasterxml.jackson.core.JsonFactory;
 import com.fasterxml.jackson.core.type.TypeReference;

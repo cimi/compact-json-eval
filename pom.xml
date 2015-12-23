@@ -3,11 +3,11 @@
   <modelVersion>4.0.0</modelVersion>
 
   <groupId>io.cimi</groupId>
-  <artifactId>compression</artifactId>
+  <artifactId>compact-json-eval</artifactId>
   <version>1.0-SNAPSHOT</version>
   <packaging>jar</packaging>
 
-  <name>compression</name>
+  <name>compact-json-eval</name>
   <url>http://maven.apache.org</url>
 
   <properties>
@@ -32,7 +32,7 @@
           </descriptorRefs>
           <archive>
             <manifest>
-              <mainClass>io.cimi.Runner</mainClass>
+              <mainClass>io.cimi.compactjson.Runner</mainClass>
             </manifest>
           </archive>
         </configuration>
