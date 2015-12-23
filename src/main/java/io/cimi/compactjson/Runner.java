@@ -23,7 +23,8 @@ public class Runner {
     private static List<Processor> COMPRESSORS = ImmutableList.of(
             new IdentityProcessor(),
             new GzipCompressor(),
-            new DeflateCompressor());
+            new DeflateCompressor(),
+            new ZipCompressor());
 
     private Stream<File> getFileStream(String directory) {
         File[] files = new File(directory).listFiles();
