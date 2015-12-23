@@ -17,7 +17,8 @@ public class Runner {
     private static List<Processor> ENCODERS = ImmutableList.of(
             new IdentityProcessor(),
             new SmileEncoder(),
-            new BsonEncoder());
+            new BsonEncoder(),
+            new MessagePackEncoder());
 
     private static List<Processor> COMPRESSORS = ImmutableList.of(
             new IdentityProcessor(),
