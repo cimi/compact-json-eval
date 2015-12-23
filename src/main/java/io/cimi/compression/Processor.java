@@ -4,5 +4,4 @@ import java.io.File;
 
 public interface Processor {
     File process(File f);
-    String getExtension();
 }

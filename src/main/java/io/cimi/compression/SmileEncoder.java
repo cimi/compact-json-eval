@@ -43,8 +43,4 @@ public class SmileEncoder implements Processor {
         }
         return outputFile;
     }
-
-    public String getExtension() {
-        return ".smile";
-    }
 }

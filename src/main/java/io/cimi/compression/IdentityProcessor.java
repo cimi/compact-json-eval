@@ -8,9 +8,4 @@ public class IdentityProcessor implements Processor {
     public File process(File f) {
         return f;
     }
-
-    @Override
-    public String getExtension() {
-        return "";
-    }
 }

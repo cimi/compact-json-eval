@@ -25,8 +25,4 @@ public class GzipCompressor implements Processor {
         }
         return compressedFile;
     }
-
-    public String getExtension() {
-        return ".gz";
-    }
 }
