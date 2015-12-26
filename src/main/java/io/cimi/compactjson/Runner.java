@@ -1,7 +1,5 @@
 package io.cimi.compactjson;
 
-import com.google.common.collect.ImmutableList;
-
 import java.io.File;
 import java.io.IOException;
 import java.util.Arrays;
@@ -14,17 +12,6 @@ import static java.util.stream.Collectors.toList;
 
 public class Runner {
 
-    private static List<Processor> ENCODERS = ImmutableList.of(
-            new IdentityProcessor(),
-            new SmileEncoder(),
-            new BsonEncoder(),
-            new MessagePackEncoder());
-
-    private static List<Processor> COMPRESSORS = ImmutableList.of(
-            new IdentityProcessor(),
-            new GzipCompressor(),
-            new DeflateCompressor(),
-            new ZipCompressor());
 
     private Stream<File> getFileStream(String directory) {
         File[] files = new File(directory).listFiles();
@@ -33,11 +20,10 @@ public class Runner {
     }
 
     private List<File> processFile(File f) {
-        return ENCODERS.stream()
-                .map(encoder -> encoder.process(f))
-                .flatMap(encoded -> COMPRESSORS
-                        .stream()
-                        .map(compressor -> compressor.process(encoded)))
+        return Arrays.stream(Encoders.values())
+                .map(encoder -> encoder.getProcessor().process(f))
+                .flatMap(encoded -> Arrays.stream(Compressors.values())
+                        .map(compressor -> compressor.getProcessor().process(encoded)))
                 .collect(toList());
     }
 
