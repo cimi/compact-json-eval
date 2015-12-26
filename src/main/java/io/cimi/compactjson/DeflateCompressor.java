@@ -8,18 +8,14 @@ import java.io.FileOutputStream;
 import java.io.IOException;
 import java.util.zip.DeflaterOutputStream;
 
-public class DeflateCompressor implements Processor {
+public class DeflateCompressor extends Compressor {
     @Override
     public File process(File inputFile) {
         File compressedFile = new File(inputFile.getAbsolutePath() + ".zz");
         try {
             DeflaterOutputStream dos = new DeflaterOutputStream(new FileOutputStream(compressedFile));
             FileInputStream is = new FileInputStream(inputFile);
-            byte[] buf = new byte[1024];
-            int read = -1;
-            while( (read = is.read(buf)) != -1) {
-                dos.write(buf, 0, read);
-            }
+            moveBytes(is, dos);
         } catch (IOException e) {
             Throwables.propagate(e);
         }
