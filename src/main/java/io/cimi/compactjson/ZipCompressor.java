@@ -10,6 +10,10 @@ import java.util.zip.ZipEntry;
 import java.util.zip.ZipOutputStream;
 
 public class ZipCompressor extends Compressor {
+    protected ZipCompressor() {
+        super("zip");
+    }
+
     @Override
     public File process(File inputFile) {
         File compressedFile = new File(inputFile.getAbsolutePath() + ".zip");
