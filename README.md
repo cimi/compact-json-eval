@@ -32,40 +32,59 @@ A type aware evaluation will be provided.
 
 ## Sample output:
 
-| File                                               | Size       |
-| -------------------------------------------------- | ---------- |
-| test-large.json                                    | 25 MB      |
-| test-large.json.gz                                 | 1.4 MB     |
-| test-large.json.zz                                 | 1.4 MB     |
-| test-large.json.zip                                | 1.4 MB     |
-| test-large.json.smile                              | 6.1 MB     |
-| test-large.json.smile.gz                           | 961.9 kB   |
-| test-large.json.smile.zz                           | 961.9 kB   |
-| test-large.json.smile.zip                          | 969.8 kB   |
-| test-large.json.bson                               | 27 MB      |
-| test-large.json.bson.gz                            | 2.5 MB     |
-| test-large.json.bson.zz                            | 2.5 MB     |
-| test-large.json.bson.zip                           | 2.5 MB     |
-| test-large.json.msgpack                            | 19.9 MB    |
-| test-large.json.msgpack.gz                         | 1.5 MB     |
-| test-large.json.msgpack.zz                         | 1.5 MB     |
-| test-large.json.msgpack.zip                        | 1.5 MB     |
-
-| File                                               | Size       |
-| -------------------------------------------------- | ---------- |
-| test-medium.json                                   | 2 MB       |
-| test-medium.json.gz                                | 28.7 kB    |
-| test-medium.json.zz                                | 28.7 kB    |
-| test-medium.json.zip                               | 39 kB      |
-| test-medium.json.smile                             | 925.3 kB   |
-| test-medium.json.smile.gz                          | 27.3 kB    |
-| test-medium.json.smile.zz                          | 27.3 kB    |
-| test-medium.json.smile.zip                         | 30 kB      |
-| test-medium.json.bson                              | 2.1 MB     |
-| test-medium.json.bson.gz                           | 99.9 kB    |
-| test-medium.json.bson.zz                           | 99.9 kB    |
-| test-medium.json.bson.zip                          | 109.4 kB   |
-| test-medium.json.msgpack                           | 1.6 MB     |
-| test-medium.json.msgpack.gz                        | 26.9 kB    |
-| test-medium.json.msgpack.zz                        | 26.9 kB    |
-| test-medium.json.msgpack.zip                       | 37.6 kB    |
+```
+{
+  "test-large.json": {
+    "": {
+      "zip": "1.4 MB",
+      "zz": "1.4 MB",
+      "": "25 MB",
+      "gz": "1.4 MB"
+    },
+    "bson": {
+      "zip": "2.5 MB",
+      "zz": "2.5 MB",
+      "": "27 MB",
+      "gz": "2.5 MB"
+    },
+    "msgpack": {
+      "zip": "1.5 MB",
+      "zz": "1.5 MB",
+      "": "19.9 MB",
+      "gz": "1.5 MB"
+    },
+    "smile": {
+      "zip": "969.8 kB",
+      "zz": "961.9 kB",
+      "": "6.1 MB",
+      "gz": "961.9 kB"
+    }
+  },
+  "test-medium.json": {
+    "": {
+      "zip": "39 kB",
+      "zz": "28.7 kB",
+      "": "2 MB",
+      "gz": "28.7 kB"
+    },
+    "bson": {
+      "zip": "109.4 kB",
+      "zz": "99.9 kB",
+      "": "2.1 MB",
+      "gz": "99.9 kB"
+    },
+    "msgpack": {
+      "zip": "37.6 kB",
+      "zz": "26.9 kB",
+      "": "1.6 MB",
+      "gz": "26.9 kB"
+    },
+    "smile": {
+      "zip": "30 kB",
+      "zz": "27.3 kB",
+      "": "925.3 kB",
+      "gz": "27.3 kB"
+    }
+  }
+}
+```
