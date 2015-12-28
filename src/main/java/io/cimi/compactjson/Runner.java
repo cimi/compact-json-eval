@@ -1,14 +1,16 @@
 package io.cimi.compactjson;
 
+import com.google.gson.Gson;
+
 import java.io.File;
 import java.io.IOException;
 import java.util.Arrays;
-import java.util.List;
+import java.util.Map;
 import java.util.stream.Stream;
 
 import static com.google.common.base.Preconditions.checkArgument;
 import static com.google.common.base.Preconditions.checkNotNull;
-import static java.util.stream.Collectors.toList;
+import static java.util.stream.Collectors.toMap;
 
 public class Runner {
 
@@ -18,22 +20,28 @@ public class Runner {
         return Arrays.stream(files);
     }
 
-    private List<File> processFile(File f) {
-        return Arrays.stream(Encoders.values())
-                .map(encoder -> encoder.getProcessor().process(f))
-                .flatMap(encoded -> Arrays.stream(Compressors.values())
-                        .map(compressor -> compressor.getProcessor().process(encoded)))
-                .collect(toList());
+    private Map<String, Map<String, String>> processFile(File f) {
+        Map<String, File> encoded = Arrays.stream(Encoders.values())
+                .map(Encoders::getProcessor)
+                .collect(toMap(Processor::getExtension, e -> e.process(f)));
+
+        return encoded.entrySet().stream()
+                .collect(toMap(Map.Entry::getKey,
+                        entry -> Arrays.stream(Compressors.values())
+                                .map(Compressors::getProcessor)
+                                .collect(toMap(Processor::getExtension,
+                                        c -> Utils.readableFileSize(c.process(entry.getValue()))))
+                ));
     }
 
     public static void main(String[] args) throws IOException {
         Runner runner = new Runner();
+        Gson gson = new Gson();
 
         checkArgument(args.length == 1, "Please provide the directory containing your json files as a parameter!");
 
-        runner.getFileStream(args[0])
+        System.out.println(gson.toJson(runner.getFileStream(args[0])
                 .filter(f -> f.getName().endsWith(".json"))
-                .map(runner::processFile)
-                .forEach(Utils::outputInformation);
+                .collect(toMap(File::getName, runner::processFile))));
     }
 }
