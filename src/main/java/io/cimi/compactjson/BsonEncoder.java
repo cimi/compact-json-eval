@@ -8,7 +8,11 @@ import java.io.File;
 import java.io.IOException;
 import java.util.Map;
 
-public class BsonEncoder implements Processor {
+public class BsonEncoder extends Encoder {
+
+    protected BsonEncoder() {
+        super("bson");
+    }
 
     private ObjectMapper buildBsonObjectMapper() {
         BsonFactory factory = new BsonFactory();

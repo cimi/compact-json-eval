@@ -12,7 +12,6 @@ import static java.util.stream.Collectors.toList;
 
 public class Runner {
 
-
     private Stream<File> getFileStream(String directory) {
         File[] files = new File(directory).listFiles();
         checkNotNull(files, "Directory '%s' does not exist!", directory);

@@ -8,7 +8,11 @@ import java.io.File;
 import java.io.IOException;
 import java.util.Map;
 
-public class MessagePackEncoder implements Processor {
+public class MessagePackEncoder extends Encoder {
+
+    protected MessagePackEncoder() {
+        super("msgpack");
+    }
 
     private ObjectMapper buildMessagePackObjectMapper() {
         MessagePackFactory messagePackFactory = new MessagePackFactory();

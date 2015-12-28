@@ -2,10 +2,7 @@ package io.cimi.compactjson;
 
 import com.google.common.base.Throwables;
 
-import java.io.File;
-import java.io.FileInputStream;
-import java.io.FileOutputStream;
-import java.io.IOException;
+import java.io.*;
 import java.util.zip.ZipEntry;
 import java.util.zip.ZipOutputStream;
 
@@ -28,5 +25,10 @@ public class ZipCompressor extends Compressor {
             Throwables.propagate(e);
         }
         return compressedFile;
+    }
+
+    @Override
+    protected OutputStream makeCompressedStream(OutputStream os) throws IOException {
+        return new ZipOutputStream(os);
     }
 }

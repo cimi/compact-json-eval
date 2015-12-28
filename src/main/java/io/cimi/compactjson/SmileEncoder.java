@@ -10,7 +10,11 @@ import java.io.File;
 import java.io.IOException;
 import java.util.Map;
 
-public class SmileEncoder implements Processor {
+public class SmileEncoder extends Encoder {
+    protected SmileEncoder() {
+        super("smile");
+    }
+
     private ObjectMapper buildSmileObjectMapper() {
         SmileFactory smileFactory = new SmileFactory();
         smileFactory.configure(SmileGenerator.Feature.CHECK_SHARED_NAMES, true);
@@ -22,6 +26,7 @@ public class SmileEncoder implements Processor {
         return new ObjectMapper(smileFactory);
     }
 
+    @Override
     public File process(File inputFile) {
         ObjectMapper smile = buildSmileObjectMapper();
         File outputFile = new File(inputFile.getAbsolutePath() + ".smile");
